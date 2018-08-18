@@ -1,10 +1,9 @@
 package com.dony15.dao;
 
 import com.dubbo.common_domain.City;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,5 +41,32 @@ public interface CityDao {
             @Result(property = "cityDesc",column = "city_desc")
     })
     List<City> getCityList();
+
+
+    /**
+     * insert new city
+     * @param city
+     */
+    @Insert("INSERT INTO CITY(city_name,city_desc) VALUES(#{cityName},#{cityDesc})")
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    void insertCity(City city);
+
+    /**
+     * update  city where id!=null and this city don't delete
+     * @param city
+     * @return
+     */
+    @Update("<script>UPDATE CITY <set><if test='cityName != null'> city_name=#{cityName},</if><if test='cityDesc != null'> city_desc=#{cityDesc},</if></set><where> id=#{id} </where> </script>")
+    @Transactional(propagation = Propagation.REQUIRED)
+    int updateCity(City city);
+
+    /**
+     * delete city by id
+     * @return
+     */
+    @Delete("DELETE FROM CITY WHERE id=#{id}")
+    @Transactional(propagation = Propagation.REQUIRED)
+    int deleteCity(Integer id);
 
 }

@@ -29,4 +29,19 @@ public class CityServiceImpl implements CityService {
         System.out.println("Dubbo Service getCityList==================");
         return cityDao.getCityList();
     }
+
+    @Override
+    public void insertCity(City city) {
+        cityDao.insertCity(city);
+    }
+
+    @Override
+    public int updateCity(City city) {
+        return cityDao.updateCity(city);
+    }
+
+    @Override
+    public int deleteCity(Integer id) {
+        return cityDao.deleteCity(id);
+    }
 }

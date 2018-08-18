@@ -19,4 +19,23 @@ public interface CityService {
      * @return
      */
     List<City> getCityList();
+
+    /**
+     * insert new city
+     * @param city
+     */
+    void insertCity(City city);
+
+    /**
+     * update  city
+     * @param city
+     * @return
+     */
+    int updateCity(City city);
+
+    /**
+     * delete city by id
+     * @return
+     */
+    int deleteCity(Integer id);
 }
