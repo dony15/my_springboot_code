@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插入城市</title>
+    <script src="static/jquery-3.3.1.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<a href="/index.html">首页</a>
+<br/>
+<input placeholder="输入城市名" name="cityName" id="cityName" />
+<input placeholder="输入城市描述" name="cityDesc" id="cityDesc" />
+<input type="hidden" name="cityImage" id="cityImage">
+<button id="subCity">新建城市</button>
+<span>插入图片</span>
+<input  type="file" alt="插入图片" id="uploadFile"name="uploadFile" />
+
+<div >
+    <img id="image_echo" />
+</div>
+
+<script>
+    // 插入数据库
+    $("#subCity").click(function () {
+        var cityName = $("#cityName").val();
+        var cityDesc = $("#cityDesc").val();
+        var cityImage = $("#cityImage").val();
+        if (cityImage==null||cityImage==""){
+            alert("请选择图片");
+            return;
+        }
+        $.ajax({
+            url: "/insert",
+            data: {"cityName":cityName,"cityDesc":cityDesc,"cityImage":cityImage},
+            success: function (info) {
+                console.log(info);
+                    alert("插入"+cityName+"成功!");
+                    window.location.href="/getcitylist"
+            }
+        })
+    })
+    /*
+    * 图片上传
+    * 注意如果不加processData:false和contentType:false会报错
+    */
+    $("#uploadFile").change(function () {
+            var imageForm = new FormData();
+            imageForm.append("uploadFile", $("#uploadFile").get(0).files[0]);
+            $.ajax({
+                type: 'POST',
+                url: "/insertImage",
+                data: imageForm,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                success: function (data) {
+                    var result = JSON.parse(data);
+                    if (result.error==1) {
+                        alert(result.message)
+                    }else{
+                        $("#image_echo").attr("src", result.url);
+                        $("#cityImage").attr("value", result.url);
+                    }
+                },
+                error: function () {
+                    alert("上传失败")
+                }
+            });
+    })
+
+
+</script>
+
+
+</body>
+</html>
