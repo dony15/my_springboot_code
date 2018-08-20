@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DonY15主页</title>
+    <script src="static/jquery-3.3.1.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+    td{
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<h1 id="h1_username"></h1>
+<a href="/getcitylist">点击查看城市列表</a>
+<a href="/insertcity">点击插入城市</a>
+<a href="/freemarkers/cityList_fk.html">查看模板城市列表</a>
+<input type="text" placeholder="请输入查询的城市,如:上海" name="cityName" id="cityName"/>
+
+
+<div style="width: 50%;margin: 200px auto;border-radius: 5px;background-color: beige" id="getCityByName"></div>
+<script>
+    $(function () {
+        $("#h1_username").html("欢迎宝全哥哥")
+    })
+
+
+    var getCityByName=$("#getCityByName");
+    $("#cityName").change(function () {
+        var cityName=$("#cityName").val();
+        console.log(cityName);
+        $.ajax({
+            url: "/getcity/"+cityName,
+            success: function (city) {
+                var html1="";
+                if (city!=null&&city!=""){
+                    html1="<table  width='100%' class='tab tab-container  table-hover table-striped'><tr><td>编号</td><td>城市</td><td>描述</td></tr>";
+                    html1=html1+"<tr><td>"+city.id+"</td><td>"+city.cityName+"</td><td>"+city.cityDesc+"</td></tr></table>";
+                    if(city.cityImage!=null&&city.cityImage!=""){
+                    html1=html1+"<img style=\"width: 100%\" src="+city.cityImage+" />";
+                    }else{
+                        html1=html1+"<h3>您查找的城市尚无图片参考哦~</h3>";
+                    }
+                }else{
+                    html1="<h3>您查找的城市尚未开通哦~</h3>";
+                }
+                getCityByName.html(html1);
+            }
+        })
+    })
+
+
+
+</script>
+</body>
+</html>
