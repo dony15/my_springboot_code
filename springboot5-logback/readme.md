@@ -4,7 +4,7 @@
 
 # Demo说明书
 
-本Demo主要演示**SpringBoot+Dubbo+ZK+Mybatis+RestFull(部分)+Freemarker+Thymeleaf+FastDFS+Nginx+Redis**
+本Demo主要演示**SpringBoot+Dubbo+ZK+Mybatis+RestFull(部分)+Freemarker+Thymeleaf+FastDFS+Nginx+Redis+Logback**
 
 
 
@@ -34,6 +34,10 @@ Nginx
 
 Redis +Jackson
 
+---
+
+Logback
+
 
 
 **风格**
@@ -44,7 +48,7 @@ springMVC & RestFull
 
 **重点**
 
-Redis的依赖要注意哦!搭配Jackson使用( • ̀ω•́ )✧
+Logback,比较主流通用的日志工具( • ̀ω•́ )✧
 
 ![](https://i.imgur.com/tk2Twa2.png)
 
