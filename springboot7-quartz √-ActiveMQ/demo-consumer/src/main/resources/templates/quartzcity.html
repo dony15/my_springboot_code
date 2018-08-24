@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>城市列表</title>
+    <script src="static/jquery-3.3.1.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+</head>
+<body>
+<br>
+<div style="position: fixed;left: 10px;width: 25%;height: 564px;background-color: rgba(195,206,206,0.4)">
+    <h3>这里可以监控定时状态</h3>
+    <p>插入任务时,一份发送到定时框架,一份发送到数据库</p>
+    <p>此处从数据库中返回详细信息和状态,返回中并对定时框架的指定任务进行校验</p>
+    <p>可监测|阻塞|完成|错误|不存在|正常|暂停|异常|</p>
+    <p>可操作|增加|修改|移除|</p>
+</div>
+
+<div style="position: fixed;right: 10px;width: 25%;height: 564px;background-color: rgba(195,206,206,0.4)">
+    <h3>设定分组,供插入选择</h3>
+    <p>设定分组,插入到数据库</p>
+    <p>从数据库中取分组列表到插入中</p>
+    <p>可操作|增加|修改|移除|</p>
+    <p>未完成切存在的任务分组禁止删除</p>
+    <h3>设计Cron生成选择器</h3>
+    <a href="http://cron.qqe2.com">Cron生成选择器</a>
+</div>
+
+<center>
+    <div style="width:30%; margin: 30px auto">
+        <h1>插入城市定时任务</h1>
+        <hr>
+        <input class="form-control" id="params" name="params" placeholder="此处应选择测试城市"/>
+        <hr>
+        <input class="form-control" id="jobName" name="jobName" placeholder="输入JobName"/>
+        <hr>
+        <input class="form-control" id="jobGroupName" name="jobGroupName" value="jobGroup01" placeholder="此处应选择分组"/>
+        <hr>
+        <input class="form-control" id="triggerName" name="triggerName" placeholder="输入triggerName"/>
+        <hr>
+        <input class="form-control" id="triggerGroupName" name="triggerGroupName" value="triggerGroup01" placeholder="此处应选择分组"/>
+        <hr>
+        <input class="form-control" id="cron" name="cron" placeholder="输入cron语句"/>
+        <hr>
+        <button class="btn btn-success" id="insertQuartz">插入</button>
+        <button  class="btn btn-default" ><a href="index.html">返回</a></button>
+    </div>
+</center>
+
+
+<script>
+    $("#insertQuartz").click(function () {
+        var params = $("#params").val();
+        var jobName = $("#jobName").val();
+        var jobGroupName = $("#jobGroupName").val();
+        var triggerName = $("#triggerName").val();
+        var triggerGroupName = $("#triggerGroupName").val();
+        var cron = $("#cron").val();
+
+
+        $.ajax({
+            url: "/quartz",
+            data: {
+                "params": params
+                , "jobName": jobName
+                , "jobGroupName": jobGroupName
+                , "triggerName": triggerName
+                , "triggerGroupName": triggerGroupName
+                , "cron": cron
+            },
+            success: function (info) {
+                alert(info)
+                window.location.href="/index";
+            },
+            error: function () {
+                alert("定时失败")
+            }
+        })
+    })
+</script>
+
+
+</body>
+</html>

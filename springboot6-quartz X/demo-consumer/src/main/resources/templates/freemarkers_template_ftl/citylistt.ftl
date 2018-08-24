@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>城市列表</title>
+    <script src="static/jquery-3.3.1.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <style>
+        td{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<a href="/index.html">首页</a>
+<br/>
+<div style="width: 50%;margin: 200px auto;border-radius: 5px;background-color: beige">
+    <table  width='100%' class='tab tab-container  table-hover table-striped'>
+        <tr><td>编号</td><td>城市</td><td>描述</td></tr>
+        <#list cityList as city>
+        <tr>
+            <td >${city.id}</td>
+            <td >${city.cityName}</td>
+            <td >${city.cityDesc}</td>
+        </tr>
+        </#list>
+    </table>
+</div>
+</body>
+</html>
