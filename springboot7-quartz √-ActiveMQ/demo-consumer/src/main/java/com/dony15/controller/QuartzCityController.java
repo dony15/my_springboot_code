@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.jms.Destination;
+import javax.jms.JMSException;
 
 /**
  * @author DonY15
@@ -22,7 +23,7 @@ public class QuartzCityController {
     private ActiveProducer activeProducer;
 
     @RequestMapping("/quartz")
-    public String getQuartzCityByName(QuartzEntity quartzEntity){
+    public String getQuartzCityByName(QuartzEntity quartzEntity) throws JMSException {
         //queue
         //Destination destination = new ActiveMQQueue("getCityByName2.queue");
         //topic
@@ -32,5 +33,15 @@ public class QuartzCityController {
         return "SUCCESS";
     }
 
+    @RequestMapping("/testquartz")
+    public String getTestQuartzCityByName(QuartzEntity quartzEntity) throws JMSException {
+
+        Destination destination = new ActiveMQTopic("testgetCityByName2.topic");
+
+        for (int i = 0; i < 20; i++) {
+        activeProducer.sendMessage(destination, quartzEntity);
+        }
+        return "SUCCESS";
+    }
 
 }

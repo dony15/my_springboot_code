@@ -6,8 +6,11 @@ import com.dubbo.common_domain.QuartzEntity;
 import com.dubbo.common_interface.QuartzCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +28,9 @@ public class QuartzCityServiceImpl implements QuartzCityService {
     @JmsListener(destination = "getCityByName2.topic")
     @Override
     public void getCityByName(QuartzEntity quartz) {
+
         Boolean exists = quartzManager.notExists(quartz.getTriggerName(), quartz.getTriggerGroupName());
-        System.err.println("来自消息队列和Dubbo的数据:"+quartz);
+        System.err.println("来自消息队列和Dubbo的数据:"+quartz+new Date());
         System.err.println("true:不存在/false:存在:"+exists);
         Map<String,Object> params=new HashMap<>();
         params.put("params",quartz.getParams());
@@ -39,5 +43,6 @@ public class QuartzCityServiceImpl implements QuartzCityService {
                     quartz.getTriggerName(), quartz.getJobGroupName(),
                     SelectCityJob.class, quartz.getCron(), params);
         }
+
     }
 }

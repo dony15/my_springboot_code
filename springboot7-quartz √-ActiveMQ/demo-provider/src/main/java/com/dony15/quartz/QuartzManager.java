@@ -55,7 +55,6 @@ public class QuartzManager {
             if (!scheduler.isShutdown()) {
                 scheduler.start();
             }
-            Thread.sleep(200000);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
